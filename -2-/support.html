@@ -1,0 +1,40 @@
+<!doctype html><html lang="ru"><head><title>Обращения — Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<main>
+<section class="glass formcard">
+<h1>Обращения</h1>
+<p class="sub">Заявка на хелпера или модератора, жалоба на администратора, баг сервера.</p>
+<form id="sf" novalidate>
+<label for="k">Что вы хотите отправить</label>
+<select id="k"><option value="bug">Баг сервера</option><option value="admin">Жалоба на админа</option><option value="helper">Подать на хелпера</option><option value="mod">Подать на модератора</option></select>
+<label for="n">Ваш ник</label><input id="n" maxlength="16" placeholder="Ник в Minecraft" autocomplete="off">
+<div id="ta" style="display:none"><label for="t">Ник админа</label><input id="t" maxlength="16" autocomplete="off"></div>
+<div id="ag" style="display:none"><label for="a">Возраст</label><input id="a" type="number" min="10" max="99"></div>
+<div id="tm" style="display:none"><label for="ts">Тип теста</label><select id="ts"></select></div>
+<div id="th" style="display:none"><div class="two"><div><label for="hh">Часов онлайн в день</label><input id="hh" type="number" min="1" max="24"></div><div><label for="hc">Discord или Telegram для связи</label><input id="hc" maxlength="40" placeholder="@ник"></div></div></div>
+<label for="x" id="xl">Подробности</label><textarea id="x" rows="5" maxlength="1500" placeholder="Опишите ситуацию"></textarea>
+<button class="btn" style="width:100%;margin-top:22px">Отправить</button>
+<div class="msg" id="m" role="alert"></div></form></section></main>
+<script src="app.js"></script>
+<script>
+const $=id=>document.getElementById(id),tt=support.get().testTypes||[];
+$('ts').innerHTML=tt.map(t=>'<option>'+esc(t)+'</option>').join('');
+function sync(){const k=$('k').value;$('ta').style.display=k==='admin'?'':'none';$('tm').style.display=k==='mod'?'':'none';$('th').style.display=k==='helper'?'':'none';$('ag').style.display=(k==='mod'||k==='helper')?'':'none';$('xl').textContent=k==='helper'?'Почему вы хотите стать хелпером? Опыт на серверах':'Подробности';
+ $('m').className='msg';$('m').textContent=k==='mod'&&!tt.length?'Приём заявок на модератора сейчас закрыт':''}
+$('k').onchange=sync;sync();
+$('sf').onsubmit=ev=>{ev.preventDefault();const m=$('m');m.className='msg';if(!gate(ev))return;
+ const k=$('k').value,nick=$('n').value.trim(),text=$('x').value.trim();
+ if(!/^\w{3,16}$/.test(nick)){m.textContent='Ник: 3–16 символов, латиница, цифры и _';return}
+ if(text.length<10){m.textContent='Опишите подробнее (минимум 10 символов)';return}
+ const r={id:Date.now(),from:session.get().email,kind:k,nick,text,date:new Date().toISOString(),done:false};
+ if(k==='admin'){r.target=$('t').value.trim();if(!r.target){m.textContent='Укажите ник админа';return}}
+ if(k==='helper'){const ag=Number($('a').value),hh=Number($('hh').value),hc=$('hc').value.trim();
+  if(!(ag>=10&&ag<=99)){m.textContent='Укажите возраст';return}
+  if(!(hh>=1&&hh<=24)){m.textContent='Укажите, сколько часов в день вы бываете онлайн';return}
+  if(hc.length<3){m.textContent='Укажите Discord или Telegram для связи';return}
+  r.age=ag;r.hours=hh;r.contact=hc}
+ if(k==='mod'){if(!tt.length){m.textContent='Приём заявок закрыт';return}const ag=Number($('a').value);if(!(ag>=10&&ag<=99)){m.textContent='Укажите возраст';return}r.age=ag;r.test=$('ts').value}
+ const c=requests.all();c.push(r);
+ try{requests.save(c)}catch{m.textContent='Не удалось сохранить';return}
+ ev.target.reset();sync();m.className='msg ok';m.textContent='Обращение отправлено. Администрация ответит вам.'};
+</script></body></html>

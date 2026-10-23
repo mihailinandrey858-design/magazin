@@ -1,0 +1,22 @@
+<!doctype html><html lang="ru"><head><title>Регистрация — Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<div class="auth"><div class="glass">
+<img class="logo-s" src="logo.jpg" alt="Soligref">
+<div class="tabs"><button class="on" id="t1">Регистрация</button><button id="t2">Вход</button></div>
+<form id="f" autocomplete="on">
+<div id="nm"><label for="n">Имя</label><input id="n" autocomplete="name"></div>
+<label for="e">Почта</label><input id="e" type="email" autocomplete="email" required>
+<label for="p">Пароль</label><input id="p" type="password" autocomplete="current-password" required>
+<button class="btn" id="go">Зарегистрироваться</button>
+<div class="msg" id="m" role="alert"></div></form>
+</div></div>
+<script src="app.js"></script>
+<script>
+let mode='reg';const $=id=>document.getElementById(id);
+function setMode(x){mode=x;$('t1').className=x=='reg'?'on':'';$('t2').className=x=='reg'?'':'on';$('nm').style.display=x=='reg'?'':'none';$('go').textContent=x=='reg'?'Зарегистрироваться':'Войти';$('p').autocomplete=x=='reg'?'new-password':'current-password';$('m').textContent=''}
+$('t1').onclick=()=>setMode('reg');$('t2').onclick=()=>setMode('in');
+$('f').onsubmit=async ev=>{ev.preventDefault();const m=$('m');m.className='msg';
+ if(mode=='reg'){const er=await register($('n').value,$('e').value,$('p').value);if(er){m.textContent=er;return}location.href='index.html'}
+ else{const r=await login($('e').value,$('p').value);if(r.error){m.textContent=r.error;return}location.href=r.admin?'admin.html':'index.html'}};
+
+</script></body></html>

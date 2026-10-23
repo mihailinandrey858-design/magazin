@@ -1,0 +1,37 @@
+<!doctype html><html lang="ru"><head><title>Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<main>
+<section class="hero">
+<div><span class="tag">Minecraft-сервер</span>
+<h1 data-site="heroTitle">SoliGrief — Minecraft-сервер</h1>
+<p data-site="heroText"></p>
+<div class="glass ipbox"><div><small>IP сервера</small><b id="ip" data-site="ip">mc.soligrief.pw</b></div><button class="btn sm" id="cp" type="button">Копировать</button></div>
+<div class="row"><a class="btn" href="#join">Как зайти</a><a class="btn light" href="shop.html">Магазин</a><a class="btn light" href="report.html">Пожаловаться на игрока</a></div></div>
+<div class="stage"><div class="model" id="model"><img src="logo.jpg" alt="Логотип Soligref"></div></div>
+</section>
+
+<h2>О сервере</h2><p class="sub">Что вас ждёт на SoliGrief</p>
+<div class="grid" id="home-cards"></div>
+
+<h2 id="join">Как зайти на сервер</h2><p class="sub">Три шага, и вы в игре</p>
+<div class="steps">
+<div class="glass step"><h3>Откройте Minecraft</h3><p>Запустите игру и выберите «Сетевая игра».</p></div>
+<div class="glass step"><h3>Добавьте сервер</h3><p>Нажмите «Добавить сервер» и вставьте IP: <b class="ipcopy">mc.soligrief.pw</b></p></div>
+<div class="glass step"><h3>Заходите и играйте</h3><p>Нажмите «Подключиться». Если возникнут вопросы, напишите в обращения на сайте.</p></div>
+</div>
+
+<h2>Разделы сайта</h2>
+<div class="grid compact">
+<a class="glass card linkcard" href="shop.html"><div class="dot"></div><h3>Магазин</h3><p>Привилегии и валюта сервера.</p></a>
+<a class="glass card linkcard" href="report.html"><div class="dot"></div><h3>Жалоба на игрока</h3><p>Отправьте скриншот нарушения и ник нарушителя.</p></a>
+<a class="glass card linkcard" href="support.html"><div class="dot"></div><h3>Обращения</h3><p>Заявка на хелпера или модератора, баги, жалобы на админов.</p></a>
+</div></main>
+<script src="app.js"></script>
+<script>
+const m=document.getElementById('model');
+document.addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*2,y=(e.clientY/innerHeight-.5)*2;m.style.transform='rotateY('+x*14+'deg) rotateX('+(-y*10)+'deg)'});
+document.addEventListener('DOMContentLoaded',()=>{const ip=site.get().ip||'mc.soligrief.pw';document.querySelectorAll('.ipcopy').forEach(e=>e.textContent=ip)});
+document.getElementById('cp').onclick=async e=>{const b=e.target,t=document.getElementById('ip').textContent.trim();
+ try{await navigator.clipboard.writeText(t)}catch{const r=document.createRange();r.selectNodeContents(document.getElementById('ip'));const s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy')}catch{}}
+ b.textContent='Скопировано ✓';setTimeout(()=>b.textContent='Копировать',1800)};
+</script></body></html>

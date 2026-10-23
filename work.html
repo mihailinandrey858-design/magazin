@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Работа у нас — Пист &amp; Зёрна</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">●</span>
+      <span>
+        <strong>Пист &amp; Зёрна</strong>
+        <small>спешалти кофе</small>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="menu.html">Меню</a>
+      <a href="onas.html">О нас</a>
+      <a href="zerna.html">Зёрна</a>
+      <a href="work.html">Работа</a>
+      <a href="contact.html">Контакты</a>
+    </nav>
+    <a href="zakazatstol.html" class="btn btn-small">Заказать столик</a>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <h1>Работа в кофейне, где ценят вкус и людей</h1>
+      <p>Мы ищем тех, кому важны детали: от правильной температуры молока до тёплого приветствия гостя. Обучаем с нуля, если есть желание.</p>
+      <a href="#apply" class="btn">Откликнуться</a>
+    </section>
+
+    <section class="features">
+      <article class="feature">
+        <h3>Обучение</h3>
+        <p>Наставник на первые две недели и регулярные мастер-классы по кофе и сервису.</p>
+      </article>
+      <article class="feature">
+        <h3>Стабильный график</h3>
+        <p>Сменный график с выходными, без переработок в пиковые часы.</p>
+      </article>
+      <article class="feature">
+        <h3>Понятный рост</h3>
+        <p>От помощника бариста до старшего смены — с чёткими критериями и повышением оплаты.</p>
+      </article>
+      <article class="feature">
+        <h3>Команда</h3>
+        <p>Дружный коллектив, общие обеды и поддержка друг друга в каждой смене.</p>
+      </article>
+    </section>
+
+    <section class="section section-tint">
+      <h2>Открытые вакансии</h2>
+      <div id="vacancies" class="vacancy-list"></div>
+    </section>
+
+    <section id="apply" class="apply">
+      <div>
+        <h2>Оставьте заявку</h2>
+        <p>Расскажите немного о себе. Мы свяжемся с вами в течение двух рабочих дней.</p>
+      </div>
+
+      <form class="form" data-validate data-success="Спасибо! Заявка принята, мы свяжемся с вами.">
+        <label>
+          Имя
+          <input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться">
+        </label>
+        <label>
+          Телефон
+          <input type="tel" name="phone" required autocomplete="tel" placeholder="+996 ...">
+        </label>
+        <label>
+          Вакансия
+          <select id="position-select" name="position" required></select>
+        </label>
+        <label>
+          Коротко о себе
+          <textarea name="message" rows="4" placeholder="Опыт, навыки, когда можете выходить"></textarea>
+        </label>
+        <button type="submit" class="btn">Отправить заявку</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer-contacts">
+    <div>
+      <h2>Есть вопросы?</h2>
+      <p>Напишите или позвоните нам:</p>
+      <p>+996 XXX XXX XXX</p>
+      <p>г. Бишкек, ваш адрес</p>
+    </div>
+    <p class="copy" style="grid-column: 1 / -1">© 2026 Пист &amp; Зёрна</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Заказать столик — Пист &amp; Зёрна</title>
+
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">●</span>
+      <span>
+        <strong>Пист &amp; Зёрна</strong>
+        <small>спешалти кофе</small>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="menu.html">Меню</a>
+      <a href="onas.html">О нас</a>
+      <a href="zerna.html">Зёрна</a>
+      <a href="work.html">Работа</a>
+      <a href="contact.html">Контакты</a>
+    </nav>
+    <a href="zakazatstol.html" class="btn btn-small">Заказать столик</a>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <h1>Заказать столик</h1>
+      <p>Выберите дату, время и количество гостей. Мы подтвердим бронь по телефону.</p>
+    </section>
+
+    <section class="section split">
+      <form class="form" data-validate data-success="Заявка принята. Мы перезвоним для подтверждения.">
+        <div class="form-row">
+          <label>
+            Имя
+            <input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться">
+          </label>
+          <label>
+            Телефон
+            <input type="tel" name="phone" required autocomplete="tel" placeholder="+996 ...">
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            Дата
+            <input type="date" name="date" required>
+          </label>
+          <label>
+            Время
+            <select name="time" required>
+              <option value="">Выберите время</option>
+              <option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option>
+              <option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option>
+              <option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option>
+              <option>20:00</option><option>21:00</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Количество гостей
+          <select name="guests" required>
+            <option value="">Выберите</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
+          </select>
+        </label>
+        <label>
+          Пожелания
+          <textarea name="wishes" rows="3" placeholder="Например: место у окна, детский стул"></textarea>
+        </label>
+        <button type="submit" class="btn">Забронировать</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+
+      <div class="values">
+        <article class="value">
+          <h3>Бронь на 2 часа</h3>
+          <p>Столик держим 2 часа с момента прихода. Если задерживаетесь, позвоните нам.</p>
+        </article>
+        <article class="value">
+          <h3>Больше 6 гостей</h3>
+          <p>Для большой компании позвоните нам, и мы подберём отдельный стол.</p>
+        </article>
+        <article class="value">
+          <h3>Подтверждение</h3>
+          <p>Мы перезвоним по указанному номеру, чтобы подтвердить бронь.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="copy">© 2026 Пист &amp; Зёрна · <a href="contact.html">Контакты</a></footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

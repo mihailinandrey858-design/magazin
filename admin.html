@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"
+    <title></title>
+</head>
+<body>
+
+<div class="wrapper">
+  <header class="site-header">
+  <a href="index.html" class="logo">
+    <img src="img/Логотип ManasCode с горным символом.png" alt="Логотип Пист & Зёрна" class="logo-mark">
+    <span>
+      <strong>Пист & Зёрна</strong>
+      <small>спешалти кофе</small>
+    </span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">На сайт</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <div class="admin-header">
+      <h1>Панель управления</h1>
+      <button id="clear-data" class="btn-clear">Очистить все данные</button>
+    </div>
+
+    <!-- Блок подписчиков на рассылку -->
+    <section class="admin-section">
+      <h2>📬 Подписки на новости (E-mail)</h2>
+      <div style="overflow-x: auto;">
+        <table class="data-table" id="subs-table">
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>E-mail</th>
+              <th>Дата подписки</th>
+            </tr>
+          </thead>
+          <tbody id="subs-body">
+            <!-- Сюда динамически добавляются почты -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Блок бронирования / заявок / откликов -->
+    <section class="admin-section">
+      <h2>📋 Заявки и бронирования</h2>
+      <div style="overflow-x: auto;">
+        <table class="data-table" id="orders-table">
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Имя / Контакт</th>
+              <th>Детали заявки</th>
+              <th>Дата отправки</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <!-- Сюда динамически добавляются заявки -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

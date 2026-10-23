@@ -1,0 +1,201 @@
+<!doctype html><html lang="ru"><head><title>Админ — Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<main><h2>Админ-панель</h2><p class="sub">Пользователи и база паролей</p>
+<h2>Настройки сайта</h2><p class="sub">Название, логотип, цвет, IP сервера и тексты страниц</p>
+<div class="glass card" style="margin-top:20px;padding:30px">
+<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><img id="lp" class="thumb" style="height:70px;width:105px;object-fit:cover;border-radius:14px" alt="Логотип">
+<div><input id="lf" type="file" accept="image/png,image/jpeg"><button type="button" class="btn light sm" id="lr" style="margin-top:8px">Вернуть исходный логотип</button></div></div>
+<label for="sn">Название сайта</label><input id="sn">
+<label for="sip">IP сервера (показывается на главной)</label><input id="sip" placeholder="mc.soligrief.pw">
+<label for="sa">Основной цвет</label><input id="sa" type="color" style="height:46px;padding:4px">
+<label for="sh">Заголовок главной</label><input id="sh">
+<label for="sx">Текст главной</label><textarea id="sx" rows="3"></textarea>
+<label for="st1">Заголовок страницы «Состав»</label><input id="st1">
+<label for="st2">Подзаголовок «Состава»</label><input id="st2">
+<h3 style="margin-top:26px">Карточки главной</h3><div id="eh"></div>
+<button type="button" class="btn light sm" style="margin-top:10px" id="ah">Добавить карточку</button>
+<h3 style="margin-top:26px">Карточки состава</h3><div id="es"></div>
+<button type="button" class="btn light sm" style="margin-top:10px" id="as">Добавить карточку</button>
+<button type="button" class="btn" id="sv" style="margin-top:26px">Сохранить сайт</button><div class="msg" id="sm" role="alert"></div>
+</div>
+<h2>Пользователи</h2><div class="stats"><div class="glass"><b id="cnt">0</b>пользователей</div></div>
+<div class="glass card wrap"><table><thead><tr><th>Имя</th><th>Почта</th><th>Хэш пароля (SHA-256)</th><th>Дата</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+<p id="empty" class="sub" style="margin-top:14px">Пока никто не зарегистрировался.</p></div>
+<p style="margin-top:18px"><button class="btn sm" id="exp">Скачать базу (JSON)</button></p>
+
+<h2>Жалобы на игроков</h2><p class="sub">Заявки на нарушителей</p>
+<div class="glass card wrap" style="margin-top:20px"><table><thead><tr><th>Дата</th><th>От</th><th>Нарушитель</th><th>Суть</th><th>Доказательства</th><th></th></tr></thead><tbody id="crows"></tbody></table>
+<p id="cempty" class="sub" style="margin-top:14px">Жалоб пока нет.</p></div>
+
+<h2>Обращения</h2><p class="sub">Заявки на хелпера и модератора, жалобы на админов, баги сервера</p>
+<div class="glass card wrap" style="margin-top:20px"><table><thead><tr><th>Дата</th><th>От</th><th>Вид</th><th>Подробности</th><th></th></tr></thead><tbody id="rrows"></tbody></table>
+<p id="rempty" class="sub" style="margin-top:14px">Обращений пока нет.</p></div>
+<div class="glass card" style="margin-top:20px;padding:30px">
+<h3>Типы теста для модераторов</h3><p class="sub">Игрок выбирает один из них в заявке «Подать на модератора». Если список пуст, приём заявок закрыт.</p>
+<div id="et"></div>
+<button type="button" class="btn light sm" style="margin-top:10px" id="at">Добавить тип теста</button>
+<button type="button" class="btn" id="stt" style="margin-top:26px">Сохранить типы теста</button><div class="msg" id="tm" role="alert"></div></div>
+
+<h2>Магазин донатов</h2><p class="sub">Товары, скидки, купоны и связь с плагином сервера</p>
+<div class="glass card" style="margin-top:20px;padding:30px">
+<label for="pu">Ссылка на оплату (куда перекидывать покупателя, необязательно)</label><input id="pu" type="url" placeholder="https://...">
+<label for="pc">Валюта</label><input id="pc" maxlength="6" style="max-width:120px">
+<h3 style="margin-top:26px">Товары и скидки</h3>
+<p class="sub">У каждого товара можно задать скидку в процентах и картинку: ссылкой (img) или файлом.</p><div id="ep"></div>
+<button type="button" class="btn light sm" style="margin-top:10px" id="ap">Добавить товар</button>
+<h3 style="margin-top:26px">Купоны</h3>
+<p class="sub">При покупке игрок увидит вопрос «Хотите использовать купон?». Скидка по купону считается от цены уже со скидкой товара. Лимит 0 = без ограничения.</p><div id="ec"></div>
+<button type="button" class="btn light sm" style="margin-top:10px" id="ac">Добавить купон</button>
+<h3 style="margin-top:26px">Плагин для сервера</h3>
+<p class="sub">Плагин принимает покупки с сайта и выдаёт донат командами из своего config.yml (Spigot / Paper 1.16+).</p>
+<p style="margin-top:12px"><a class="btn sm" href="soligref-donate-plugin.zip" download>Скачать плагин (исходники и инструкция)</a></p>
+<label for="au">Адрес плагина (например, http://123.45.67.89:8765)</label><input id="au" type="url" placeholder="http://IP-сервера:8765">
+<label for="ak">Секретный ключ (тот же, что в config.yml плагина)</label><input id="ak" type="password" autocomplete="off">
+<p style="margin-top:14px"><button type="button" class="btn light sm" id="pt">Проверить связь с плагином</button></p>
+<button type="button" class="btn" id="sp" style="margin-top:26px">Сохранить магазин</button><div class="msg" id="pm" role="alert"></div></div>
+
+<h2>Покупки</h2><p class="sub">Кто и что купил. Выдано на сумму: <b id="ot">0</b></p>
+<div class="glass card wrap" style="margin-top:20px"><table><thead><tr><th>Дата</th><th>Ник</th><th>Почта</th><th>Товар</th><th>Сумма</th><th>Статус</th><th></th></tr></thead><tbody id="orows"></tbody></table>
+<p id="oempty" class="sub" style="margin-top:14px">Покупок пока нет.</p><div class="msg" id="om" role="alert"></div></div>
+</main>
+<script src="app.js"></script>
+<script>
+const s=session.get();if(!s||!s.admin)location.replace('index.html');
+const $=id=>document.getElementById(id);
+function mk(ph,val,type){const e=document.createElement('input');e.placeholder=ph;e.value=val==null?'':val;if(type)e.type=type;return e}
+function fld(t,el,fl){const w=document.createElement('div');w.style.flex=fl;const l=document.createElement('label');l.textContent=t;l.style.margin='0 0 4px';w.append(l,el);return w}
+function btn(t,fn){const x=document.createElement('button');x.type='button';x.className='btn light sm';x.textContent=t;x.onclick=fn;return x}
+
+/* Пользователи */
+function draw(){const u=db.all();$('cnt').textContent=u.length;$('empty').style.display=u.length?'none':'';
+ $('rows').innerHTML=u.map((x,i)=>'<tr><td>'+esc(x.name)+'</td><td>'+esc(x.email)+'</td><td><code>'+esc(x.hash.slice(0,24))+'…</code></td><td>'+esc(x.date.slice(0,10))+'</td><td><button class="btn light sm" data-i="'+i+'">Удалить</button></td></tr>').join('')}
+$('rows').onclick=e=>{const i=e.target.dataset.i;if(i===undefined||!confirm('Удалить пользователя?'))return;const u=db.all();u.splice(i,1);db.save(u);draw()};
+$('exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db.all(),null,2)],{type:'application/json'}));a.download='soligref-users.json';a.click()};
+draw();
+
+/* Жалобы на игроков */
+function drawC(){const c=complaints.all();$('cempty').style.display=c.length?'none':'';
+ $('crows').innerHTML=c.map((x,i)=>'<tr style="opacity:'+(x.done?.5:1)+'"><td>'+esc(x.date.slice(0,10))+'</td><td>'+esc(x.from)+(x.myNick?'<br><code>'+esc(x.myNick)+'</code>':'')+'</td><td>'+esc(x.nick)+'<br><code>'+esc(x.type)+'</code></td><td>'+esc(x.text)+'</td><td>'+(x.link&&/^https?:\/\//.test(x.link)?'<a href="'+esc(x.link)+'" target="_blank" rel="noopener noreferrer">ссылка</a> ':'')+(okImg(x.img)?'<a href="#" data-img="'+i+'"><img class="thumb" src="'+esc(x.img)+'" alt="Доказательство"></a>':'')+'</td><td><button class="btn light sm" data-d="'+i+'">'+(x.done?'Вернуть':'Решено')+'</button> <button class="btn light sm" data-x="'+i+'">Удалить</button></td></tr>').join('')}
+$('crows').onclick=async e=>{const c=complaints.all(),d=e.target.dataset.d,x=e.target.dataset.x,im=e.target.closest('[data-img]');
+ if(im){e.preventDefault();const b=await (await fetch(c[im.dataset.img].img)).blob();window.open(URL.createObjectURL(b),'_blank');return}
+ if(d!==undefined){c[d].done=!c[d].done}else if(x!==undefined){if(!confirm('Удалить жалобу?'))return;c.splice(x,1)}else return;
+ complaints.save(c);drawC()};
+drawC();
+
+/* Обращения */
+const KIND={admin:'Жалоба на админа',bug:'Баг сервера',mod:'Заявка на модератора',helper:'Заявка на хелпера'};
+function drawR(){const c=requests.all();$('rempty').style.display=c.length?'none':'';
+ $('rrows').innerHTML=c.map((x,i)=>{let det=esc(x.text);
+  if(x.kind==='admin')det='<b>На админа:</b> '+esc(x.target)+'<br>'+det;
+  if(x.kind==='helper')det='<b>Возраст:</b> '+esc(x.age)+'<br><b>Онлайн в день:</b> '+esc(x.hours)+' ч<br><b>Связь:</b> '+esc(x.contact)+'<br>'+det;
+  if(x.kind==='mod')det='<b>Возраст:</b> '+esc(x.age)+'<br><b>Тест:</b> '+esc(x.test)+'<br>'+det;
+  return '<tr style="opacity:'+(x.done?.5:1)+'"><td>'+esc((x.date||'').slice(0,10))+'</td><td>'+esc(x.from)+'</td><td>'+esc(KIND[x.kind]||x.kind)+'<br><code>'+esc(x.nick)+'</code></td><td>'+det+'</td><td><button class="btn light sm" data-d="'+i+'">'+(x.done?'Вернуть':'Решено')+'</button> <button class="btn light sm" data-x="'+i+'">Удалить</button></td></tr>'}).join('')}
+$('rrows').onclick=e=>{const c=requests.all(),d=e.target.dataset.d,x=e.target.dataset.x;
+ if(d!==undefined){c[d].done=!c[d].done}else if(x!==undefined){if(!confirm('Удалить обращение?'))return;c.splice(x,1)}else return;
+ requests.save(c);drawR()};
+drawR();
+let sup=JSON.parse(JSON.stringify(support.get()));
+function edt(){const el=$('et');el.textContent='';sup.testTypes.forEach((t,i)=>{const r=document.createElement('div');r.style.cssText='display:flex;gap:8px;margin-top:8px';
+ const a=mk('Название теста',t);a.oninput=()=>sup.testTypes[i]=a.value;a.style.flex='1';
+ r.append(a,btn('Удалить',()=>{sup.testTypes.splice(i,1);edt()}));el.append(r)})}
+$('at').onclick=()=>{sup.testTypes.push('Новый тест');edt()};
+$('stt').onclick=()=>{const m=$('tm');m.className='msg';
+ const l=sup.testTypes.map(x=>x.trim()).filter(Boolean);
+ try{support.save({testTypes:l})}catch{m.textContent='Не удалось сохранить';return}
+ sup.testTypes=l;edt();m.className='msg ok';m.textContent='Типы теста сохранены.'};
+edt();
+
+/* Настройки сайта */
+let dr=JSON.parse(JSON.stringify(site.get()));
+function fill(){$('lp').src=dr.logo;$('sn').value=dr.name;$('sip').value=dr.ip||'';$('sa').value=dr.accent;$('sh').value=dr.heroTitle;$('sx').value=dr.heroText;$('st1').value=dr.sostavTitle;$('st2').value=dr.sostavSub;ed('eh','homeCards');ed('es','sostavCards')}
+function ed(box,key){const el=$(box);el.textContent='';dr[key].forEach((c,i)=>{const r=document.createElement('div');r.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:8px';
+ const a=mk('Название',c.t),b=mk('Описание',c.p);
+ a.style.flex='1 1 140px';b.style.flex='2 1 220px';
+ a.oninput=()=>c.t=a.value;b.oninput=()=>c.p=b.value;
+ r.append(a,b,btn('Удалить',()=>{dr[key].splice(i,1);ed(box,key)}));el.append(r)})}
+$('ah').onclick=()=>{dr.homeCards.push({t:'Новая карточка',p:'Описание'});ed('eh','homeCards')};
+$('as').onclick=()=>{dr.sostavCards.push({t:'Новая карточка',p:'Описание'});ed('es','sostavCards')};
+$('lf').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{dr.logo=await shrinkImg(f,900,.85);$('lp').src=dr.logo}catch{$('sm').textContent='Не удалось прочитать изображение'}};
+$('lr').onclick=()=>{dr.logo='logo.jpg';$('lp').src=dr.logo;$('lf').value=''};
+$('sv').onclick=()=>{const m=$('sm');m.className='msg';
+ if(!$('sn').value.trim()){m.textContent='Введите название сайта';return}
+ dr.name=$('sn').value.trim();dr.ip=$('sip').value.trim();dr.accent=$('sa').value;dr.heroTitle=$('sh').value;dr.heroText=$('sx').value;dr.sostavTitle=$('st1').value;dr.sostavSub=$('st2').value;
+ try{site.save(dr)}catch{m.textContent='Не хватило места в хранилище. Загрузите логотип поменьше';return}
+ applySite();m.className='msg ok';m.textContent='Сохранено. Изменения уже видны на всех страницах.'};
+fill();
+
+/* Магазин: товары, скидки, картинки, купоны */
+let sd=JSON.parse(JSON.stringify(shop.get()));
+function fillShop(){$('pu').value=sd.pluginUrl||'';$('pc').value=sd.currency;$('au').value=sd.apiUrl||'';$('ak').value=sd.apiKey||'';edp();edc()}
+function edp(){const el=$('ep');el.textContent='';sd.products.forEach((c,i)=>{
+ const r=document.createElement('div');r.className='ptile';
+ const pv=document.createElement('img');pv.className='thumb';pv.alt='';pv.style.cssText='height:56px;width:56px;object-fit:cover;cursor:default';
+ const showImg=()=>{if(okImg(c.img)){pv.src=c.img;pv.style.display=''}else{pv.removeAttribute('src');pv.style.display='none'}};showImg();
+ const n=mk('Название',c.name),d=mk('Описание',c.desc),p=mk('Цена',c.price,'number'),dc=mk('0',c.discount||0,'number'),
+  im=mk('https://… ссылка на картинку',/^data:/.test(c.img||'')?'':(c.img||''));
+ p.min=0;dc.min=0;dc.max=100;
+ n.oninput=()=>c.name=n.value;d.oninput=()=>c.desc=d.value;
+ p.oninput=()=>c.price=Math.max(0,Number(p.value)||0);dc.oninput=()=>c.discount=Math.min(100,Math.max(0,Number(dc.value)||0));
+ im.oninput=()=>{c.img=im.value.trim();showImg()};
+ const fi=document.createElement('input');fi.type='file';fi.accept='image/png,image/jpeg,image/webp';
+ fi.onchange=async()=>{const f=fi.files[0];if(!f)return;try{c.img=await shrinkImg(f,600,.8);im.value='';showImg()}catch{$('pm').textContent='Не удалось прочитать изображение'}};
+ r.append(pv,fld('Название',n,'1 1 130px'),fld('Описание',d,'2 1 200px'),fld('Цена',p,'0 1 90px'),fld('Скидка, %',dc,'0 1 90px'),fld('Картинка: ссылка',im,'2 1 220px'),fld('или файл',fi,'1 1 170px'),btn('Удалить',()=>{sd.products.splice(i,1);edp()}));
+ el.append(r)})}
+function edc(){const el=$('ec');el.textContent='';sd.coupons=sd.coupons||[];
+ if(!sd.coupons.length){const p=document.createElement('p');p.className='sub';p.textContent='Купонов пока нет. Добавьте первый кнопкой ниже.';el.append(p)}
+ sd.coupons.forEach((c,i)=>{const r=document.createElement('div');r.className='ptile';
+  const code=mk('Код',c.code),pc=mk('10',c.percent,'number'),mx=mk('0',c.max||0,'number');
+  pc.min=1;pc.max=100;mx.min=0;
+  code.oninput=()=>c.code=code.value.trim().toUpperCase();
+  pc.oninput=()=>c.percent=Math.min(100,Math.max(0,Number(pc.value)||0));
+  mx.oninput=()=>c.max=Math.max(0,Number(mx.value)||0);
+  const on=document.createElement('input');on.type='checkbox';on.checked=!!c.active;on.style.width='auto';on.onchange=()=>c.active=on.checked;
+  const ol=document.createElement('label');ol.style.cssText='display:flex;gap:8px;align-items:center;margin:0';ol.append(on,document.createTextNode('Действует'));
+  const used=document.createElement('span');used.className='hint';used.textContent='Использован: '+(c.used||0);
+  r.append(fld('Код купона',code,'1 1 140px'),fld('Скидка, %',pc,'0 1 90px'),fld('Лимит',mx,'0 1 90px'),ol,used,btn('Удалить',()=>{sd.coupons.splice(i,1);edc()}));
+  el.append(r)})}
+$('ap').onclick=()=>{sd.products.push({id:Date.now(),name:'Новый товар',desc:'Описание',price:100,discount:0,img:''});edp()};
+$('ac').onclick=()=>{sd.coupons=sd.coupons||[];sd.coupons.push({code:'SALE10',percent:10,max:0,used:0,active:true});edc()};
+$('sp').onclick=()=>{const m=$('pm');m.className='msg';const u=$('pu').value.trim(),a=$('au').value.trim();
+ if(u&&!/^https?:\/\//.test(u)){m.textContent='Ссылка на оплату должна начинаться с http:// или https://';return}
+ if(a&&!/^https?:\/\//.test(a)){m.textContent='Адрес плагина должен начинаться с http:// или https://';return}
+ const seen=new Set();
+ for(const c of sd.coupons){
+  if(!c.code){m.textContent='У одного из купонов пустой код';return}
+  if(seen.has(c.code)){m.textContent='Код купона «'+c.code+'» повторяется';return}
+  if(!(c.percent>=1&&c.percent<=100)){m.textContent='Скидка купона «'+c.code+'» должна быть от 1 до 100%';return}
+  seen.add(c.code)}
+ sd.pluginUrl=u;sd.apiUrl=a;sd.apiKey=$('ak').value;sd.currency=$('pc').value.trim()||'₽';
+ try{shop.save(sd)}catch{m.textContent='Не удалось сохранить. Возможно, картинки слишком большие: используйте ссылки';return}
+ m.className='msg ok';m.textContent='Магазин сохранён.'};
+
+/* Связь с плагином */
+const apiBase=()=>$('au').value.trim().replace(/\/+$/,'');
+$('pt').onclick=async()=>{const m=$('pm');m.className='msg';
+ if(!apiBase()){m.textContent='Сначала укажите адрес плагина';return}
+ m.textContent='Проверяю…';
+ try{const r=await fetch(apiBase()+'/ping');const j=await r.json();if(j.ok){m.className='msg ok';m.textContent='Плагин отвечает.'}else m.textContent='Неожиданный ответ плагина'}
+ catch{m.textContent='Плагин недоступен. Проверьте адрес и порт. Если сайт открыт по https, плагин тоже должен быть за https (иначе браузер заблокирует запрос).'}};
+async function sendToServer(o){const sh=shop.get();
+ if(!sh.apiUrl)throw new Error('Укажите адрес плагина в настройках магазина и сохраните');
+ if(!sh.apiKey)throw new Error('Укажите секретный ключ плагина и сохраните');
+ let r;
+ try{r=await fetch(sh.apiUrl.replace(/\/+$/,'')+'/donate',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({secret:sh.apiKey,nick:o.nick,product:o.product,order:String(o.id)})})}
+ catch{throw new Error('Сервер недоступен. Проверьте адрес и порт плагина.')}
+ let j={};try{j=await r.json()}catch{}
+ if(!r.ok||!j.ok)throw new Error('Плагин отклонил запрос: '+(j.error||('код '+r.status)))}
+
+/* Покупки */
+function drawO(){const o=orders.all();$('oempty').style.display=o.length?'none':'';
+ $('ot').textContent=o.filter(x=>x.status==='Выдано').reduce((a,x)=>a+x.price,0)+' '+shop.get().currency;
+ $('orows').innerHTML=o.map((x,i)=>'<tr><td>'+esc(x.date.slice(0,10))+'</td><td>'+esc(x.nick)+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.product)+'</td><td>'+esc(x.price)+' '+esc(x.cur)+(x.coupon?'<br><code>купон '+esc(x.coupon)+'</code>':'')+'</td><td>'+esc(x.status)+'</td><td><button class="btn sm" data-g="'+i+'">Выдать на сервер</button> <button class="btn light sm" data-t="'+i+'">'+(x.status==='Выдано'?'Вернуть':'Отметить выданным')+'</button> <button class="btn light sm" data-r="'+i+'">Удалить</button></td></tr>').join('')}
+$('orows').onclick=async e=>{const o=orders.all(),g=e.target.dataset.g,t=e.target.dataset.t,r=e.target.dataset.r,m=$('om');m.className='msg';
+ if(g!==undefined){m.textContent='Отправляю на сервер…';
+  try{await sendToServer(o[g]);const o2=orders.all();const k=o2.findIndex(z=>z.id===o[g].id);if(k>=0){o2[k].status='Выдано';orders.save(o2)}
+   m.className='msg ok';m.textContent='Отправлено на сервер: '+o[g].nick+' — '+o[g].product;drawO()}
+  catch(err){m.textContent=err.message}return}
+ if(t!==undefined){o[t].status=o[t].status==='Выдано'?'Ожидает оплаты':'Выдано'}
+ else if(r!==undefined){if(!confirm('Удалить покупку?'))return;o.splice(r,1)}else return;
+ orders.save(o);drawO()};
+fillShop();drawO();
+</script></body></html>

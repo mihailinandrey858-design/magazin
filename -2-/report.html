@@ -1,0 +1,48 @@
+<!doctype html><html lang="ru"><head><title>Жалоба на игрока — Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<main>
+<section class="glass formcard">
+<h1>Жалоба на игрока</h1>
+<p class="sub">Нашли нарушителя на сервере? Заполните форму, и администрация рассмотрит жалобу в течение 24 часов.</p>
+<h3 style="margin-top:22px">Требования к доказательствам</h3>
+<ol style="color:var(--mute);line-height:1.7;margin:8px 0 0 20px;font-size:.95rem">
+<li>Скриншот без обрезки и редактирования. Должны быть видны дата, время и чат или экран целиком.</li>
+<li>Для читов видео лучше прикрепить ссылкой (YouTube или Imgur).</li>
+<li>Ложная жалоба или изменённые материалы приведут к блокировке аккаунта.</li></ol>
+<form id="cf" novalidate>
+<div class="two"><div><label for="my">Ваш ник</label><input id="my" required maxlength="16" placeholder="Ваш ник в Minecraft" autocomplete="off"></div>
+<div><label for="cn">Ник нарушителя</label><input id="cn" required maxlength="16" placeholder="Без ошибок" autocomplete="off"></div></div>
+<label for="ct">Тип нарушения</label>
+<select id="ct"><option>Читы или сторонний софт</option><option>Оскорбления</option><option>Спам</option><option>Нечестная игра</option><option>Другое</option></select>
+<label for="cd">Описание</label>
+<textarea id="cd" required rows="4" maxlength="1500" placeholder="Что произошло, где и когда. Например: игрок использовал читы на спавне в 18:30."></textarea>
+<label for="cfile">Фото нарушения</label>
+<label class="drop" for="cfile"><span id="dn">📷 Нажмите, чтобы выбрать фото (PNG, JPG)</span><input id="cfile" type="file" accept="image/png,image/jpeg"></label>
+<img class="preview" id="pv" alt="Предпросмотр">
+<label for="cl">Или ссылка на доказательства</label><input id="cl" type="url" placeholder="https://...">
+<button class="btn" style="width:100%;margin-top:22px">Отправить жалобу</button>
+<div class="msg" id="cm" role="alert"></div>
+</form></section></main>
+<script src="app.js"></script>
+<script>
+const $=id=>document.getElementById(id),cm=$('cm');let img='';
+$('cfile').onchange=async()=>{const f=$('cfile').files[0];img='';$('pv').style.display='none';cm.textContent='';
+ if(!f){$('dn').textContent='📷 Нажмите, чтобы выбрать фото (PNG, JPG)';return}
+ if(!/^image\/(png|jpeg)$/.test(f.type)){cm.textContent='Только PNG или JPG';$('cfile').value='';return}
+ try{img=await shrinkImg(f,1000,.75);$('pv').src=img;$('pv').style.display='block';$('dn').textContent='✅ '+f.name+' (нажмите, чтобы заменить)'}
+ catch{cm.textContent='Не удалось прочитать изображение'}};
+$('cf').onsubmit=ev=>{ev.preventDefault();cm.className='msg';
+ if(!gate(ev))return;
+ const my=$('my').value.trim(),nick=$('cn').value.trim(),text=$('cd').value.trim(),link=$('cl').value.trim();
+ if(!/^\w{3,16}$/.test(my)){cm.textContent='Ваш ник: 3–16 символов, латиница, цифры и _';return}
+ if(!/^\w{3,16}$/.test(nick)){cm.textContent='Ник нарушителя: 3–16 символов, латиница, цифры и _';return}
+ if(my.toLowerCase()===nick.toLowerCase()){cm.textContent='Нельзя пожаловаться на самого себя';return}
+ if(text.length<10){cm.textContent='Опишите нарушение подробнее (минимум 10 символов)';return}
+ if(link&&!/^https?:\/\/\S+$/i.test(link)){cm.textContent='Ссылка должна начинаться с http:// или https://';return}
+ if(!img&&!link){cm.textContent='Добавьте фото нарушения или ссылку на доказательства';return}
+ const c=complaints.all();
+ c.push({id:Date.now(),from:session.get().email,myNick:my,nick,type:$('ct').value,text,link,img,date:new Date().toISOString(),done:false});
+ try{complaints.save(c)}catch{cm.textContent='Не хватило места в хранилище. Выберите фото поменьше или вставьте ссылку';return}
+ ev.target.reset();img='';$('pv').style.display='none';$('dn').textContent='📷 Нажмите, чтобы выбрать фото (PNG, JPG)';
+ cm.className='msg ok';cm.textContent='Жалоба отправлена. Мы рассмотрим её в течение 24 часов.'};
+</script></body></html>

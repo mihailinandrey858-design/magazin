@@ -1,0 +1,53 @@
+<!doctype html><html lang="ru"><head><title>Магазин — Soligref</title><meta charset="utf-8"><script>try{var t=localStorage.getItem("soligref_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="logo.jpg"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<nav class="glass"><a class="brand" href="index.html"><img src="logo.jpg" alt="Soligref"><span>Soligref</span></a><div class="links"><a href="index.html">Главная</a><a href="sostav.html">Состав</a></div></nav>
+<main><h2>Магазин донатов</h2><p class="sub">Выберите набор, и он придёт на сервер после оплаты.</p>
+<div class="grid" id="shop"></div></main>
+<div class="overlay" id="ov"><form class="glass modal left" id="bf" role="dialog" aria-modal="true">
+<h3>Оформление покупки</h3>
+<div class="sum"><span id="pn"></span><b id="pp"></b></div>
+<label for="bn">Ник в Minecraft</label><input id="bn" required minlength="3" maxlength="16" placeholder="Например, Steve_2024" autocomplete="off">
+<label for="be">Почта</label><input id="be" type="email" required>
+<label for="bk">Хотите использовать купон?</label><div class="cprow"><input id="bk" placeholder="Код купона (необязательно)" autocomplete="off"><button type="button" class="btn light sm" id="bka">Применить</button></div>
+<label class="chk"><input type="checkbox" id="bc" required><span>Я согласен с <a href="form.html" target="_blank">правилами сайта</a></span></label>
+<button class="btn">Перейти к оплате</button>
+<button type="button" class="btn light" id="bx">Отмена</button>
+<div class="msg" id="bm" role="alert"></div></form></div>
+<script src="app.js"></script>
+<script>
+const $=id=>document.getElementById(id);let cur=null,cp=null;
+const total=()=>applyCoupon(priceOf(cur),cp);
+function draw(){const sh=shop.get(),box=$('shop');box.textContent='';
+ if(!sh.products.length){box.innerHTML='<p class="sub">Товаров пока нет.</p>';return}
+ sh.products.forEach(p=>{const d=document.createElement('div');d.className='glass card';
+  const fin=priceOf(p),disc=fin<Number(p.price);
+  d.innerHTML='<div class="pimgw"><img class="pimg" alt=""><div class="dot"></div></div><h3></h3><p></p><span class="price"><s></s><b></b></span><button class="btn sm">Купить</button>';
+  const im=d.querySelector('.pimg');
+  if(okImg(p.img)){im.src=p.img;im.alt=p.name;im.onerror=()=>{im.remove()};d.querySelector('.dot').remove()}else{im.remove()}
+  d.querySelector('h3').textContent=p.name;d.querySelector('p').textContent=p.desc;
+  const s=d.querySelector('s');if(disc){s.textContent=p.price+' '+sh.currency;const bd=document.createElement('span');bd.className='badge';bd.textContent='−'+Math.round(p.discount)+'%';d.insertBefore(bd,d.querySelector('h3'))}else s.remove();
+  d.querySelector('b').textContent=fin+' '+sh.currency;
+  d.querySelector('button').onclick=e=>{if(!gate(e))return;buy(p)};box.appendChild(d)})}
+function paint(){$('pp').textContent=total()+' '+shop.get().currency}
+function buy(p){cur=p;cp=null;$('pn').textContent=p.name;paint();
+ $('bn').value='';$('bk').value='';$('be').value=session.get().email;$('bc').checked=false;$('bm').textContent='';$('ov').classList.add('open');$('bn').focus()}
+const close=()=>$('ov').classList.remove('open');
+$('bx').onclick=close;$('ov').onclick=e=>{if(e.target===$('ov'))close()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+$('bka').onclick=()=>{const m=$('bm'),code=$('bk').value;m.className='msg';
+ if(!code.trim()){cp=null;paint();m.textContent='';return}
+ const c=findCoupon(code);if(!c){cp=null;paint();m.textContent='Купон не найден или больше не действует';return}
+ cp=c;paint();m.className='msg ok';m.textContent='Купон применён: −'+c.percent+'%'};
+$('bf').onsubmit=ev=>{ev.preventDefault();const sh=shop.get(),m=$('bm');m.className='msg';
+ const nick=$('bn').value.trim();
+ if(!/^\w{3,16}$/.test(nick)){m.textContent='Ник: 3–16 символов, латиница, цифры и _';return}
+ if(!$('bc').checked){m.textContent='Нужно согласие с правилами';return}
+ if($('bk').value.trim()&&!cp){const c=findCoupon($('bk').value);if(!c){m.textContent='Купон не найден. Очистите поле или проверьте код';return}cp=c}
+ const o={id:Date.now(),nick,email:$('be').value.trim(),product:cur.name,price:total(),cur:sh.currency,coupon:cp?cp.code:'',user:session.get().email,date:new Date().toISOString(),status:'Ожидает оплаты'};
+ const list=orders.all();list.push(o);
+ try{orders.save(list);if(cp){const s2=shop.get(),k=(s2.coupons||[]).find(z=>z.code===cp.code);if(k){k.used=(k.used||0)+1;shop.save(s2)}}}catch{m.textContent='Не удалось сохранить заказ';return}
+ if(/^https?:\/\//.test(sh.pluginUrl)){
+  try{const u=new URL(sh.pluginUrl);u.searchParams.set('order',o.id);u.searchParams.set('nick',nick);u.searchParams.set('email',o.email);u.searchParams.set('product',o.product);u.searchParams.set('amount',o.price);location.href=u.toString();return}catch{}
+ }
+ m.className='msg ok';m.textContent='Заказ №'+o.id+' создан. Оплата ещё не подключена, администрация свяжется с вами.'};
+draw();
+</script></body></html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Контакты — Пист &amp; Зёрна</title>
+ 
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">●</span>
+      <span>
+        <strong>Пист &amp; Зёрна</strong>
+        <small>спешалти кофе</small>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="menu.html">Меню</a>
+      <a href="onas.html">О нас</a>
+      <a href="zerna.html">Зёрна</a>
+      <a href="work.html">Работа</a>
+      <a href="contact.html">Контакты</a>
+    </nav>
+    <a href="zakazatstol.html" class="btn btn-small">Заказать столик</a>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <h1>Контакты</h1>
+      <p>Заходите в гости, звоните или напишите нам. Ответим в рабочее время.</p>
+    </section>
+
+    <section class="section contact-grid">
+      <div class="info">
+        <div class="info-item">
+          <h3>Адрес</h3>
+          <p>г. Бишкек, ваш адрес</p>
+        </div>
+        <div class="info-item">
+          <h3>Часы работы</h3>
+          <p>Ежедневно с 08:00 до 22:00</p>
+        </div>
+        <div class="info-item">
+          <h3>Телефон</h3>
+          <p>+996 XXX XXX XXX</p>
+        </div>
+        <div class="info-item">
+          <h3>E-mail</h3>
+          <p>hello@example.com</p>
+        </div>
+        <div class="map" role="img" aria-label="Место для карты">Карта: укажите адрес кофейни</div>
+      </div>
+
+      <form class="form" data-validate data-success="Спасибо! Сообщение отправлено.">
+        <h2>Напишите нам</h2>
+        <label>
+          Имя
+          <input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться">
+        </label>
+        <label>
+          Телефон или e-mail
+          <input type="text" name="contact" required placeholder="Как с вами связаться">
+        </label>
+        <label>
+          Сообщение
+          <textarea name="message" rows="5" required placeholder="Ваш вопрос или пожелание"></textarea>
+        </label>
+        <button type="submit" class="btn">Отправить</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="copy">© 2026 Пист &amp; Зёрна · <a href="menu.html">Меню</a></footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
